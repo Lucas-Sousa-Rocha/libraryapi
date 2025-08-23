@@ -1,4 +1,7 @@
-/* CRIA UM CONTAINER POSTGRES, COM BANCO DE DADOS E COM USUARIO E SENHA JUNTOS */
+/* CRIA NETWORK PARA COLOCAR NA MESMA REDE OS PROJETOS */
+docker network create library-network
+
+/* CRIA UM CONTAINER POSTGRES, COM BANCO DE DADOS E COM USUÁRIO E SENHA JUNTOS */
 Docker run --name librarydb -p 5433:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=library postgres:17.6
 
 /* CRIA O PGADMIN4 PARA SE CONECTAR AO POSTGRES */
@@ -25,3 +28,20 @@ docker exec -it <nome> psql -U postgres   # conecta no Postgres dentro do contai
 docker volume ls        # lista volumes
 docker volume rm <nome> # remove volume específico
 docker volume prune     # remove volumes não usados
+
+📌 Funcionalidades de backup em docker
+1. Alternativa: Fazer backup usando pg_dump dentro do container
+docker exec -t librarydb pg_dump -U postgres library > C:\Users\kukut\Documents\backup_library.sql
+Explicando:
+docker exec -t librarydb → executa um comando no container.
+pg_dump -U postgres library → faz dump do banco library com o usuário postgres.
+> → redireciona o dump para um arquivo no seu host (Windows neste caso).
+No Linux/macOS você faria algo como /home/usuario/backup_library.sql.
+
+2. Alternativa: Usando volume dentro do container
+docker exec librarydb pg_dump -U postgres library -f /var/lib/postgresql/data/backup_library.sql
+docker cp librarydb:/var/lib/postgresql/data/backup_library.sql C:\Users\kukut\Documents\backup_library.sql
+
+3. Restaurar o backup
+Para restaurar o backup em um container PostgreSQL:
+docker exec -i librarydb psql -U postgres -d library < C:\Users\kukut\Documents\backup_library.sql
