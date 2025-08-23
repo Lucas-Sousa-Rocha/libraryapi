@@ -1,0 +1,27 @@
+/* CRIA UM CONTAINER POSTGRES, COM BANCO DE DADOS E COM USUARIO E SENHA JUNTOS */
+Docker run --name librarydb -p 5433:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=library postgres:17.6
+
+/* CRIA O PGADMIN4 PARA SE CONECTAR AO POSTGRES */
+/* ACESSA PELA URL DO NAVEGADOR http://localhost:15432/ */
+docker run --name pgadmin4 -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=admin -p 15432:80 dpage/pgadmin4:9.7.0
+
+📌 Gerenciar containers
+docker ps              # lista containers em execução
+docker ps -a           # lista todos os containers (inclusive parados)
+docker start <nome>    # inicia um container existente
+docker stop <nome>     # para um container em execução
+docker restart <nome>  # reinicia um container existente
+docker rm <nome>       # remove um container parado
+docker rm -f <nome>    # força a remoção de um container (mesmo rodando)
+
+📌 Logs e debug
+docker logs <nome>         # mostra logs de um container
+docker logs -f <nome>      # mostra logs em tempo real
+docker inspect <nome>      # detalhes do container (rede, portas, env)
+docker exec -it <nome> sh  # abre terminal dentro do container
+docker exec -it <nome> psql -U postgres   # conecta no Postgres dentro do container
+
+📌 Volumes e limpeza
+docker volume ls        # lista volumes
+docker volume rm <nome> # remove volume específico
+docker volume prune     # remove volumes não usados
