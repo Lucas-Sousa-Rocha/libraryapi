@@ -1,8 +1,8 @@
 package com.quantumwebsystem.libraryapi.RepositoryTest;
 
-import com.quantumwebsystem.libraryapi.model.Author;
-import com.quantumwebsystem.libraryapi.repository.AuthorRepository;
-import com.quantumwebsystem.libraryapi.repository.BookRepository;
+import com.quantumwebsystem.libraryapi.model.Autor;
+import com.quantumwebsystem.libraryapi.repository.AutorRepository;
+import com.quantumwebsystem.libraryapi.repository.LivroRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,21 +12,21 @@ import java.time.LocalDate;
 public class AuthorRepositoryTest {
 
     @Autowired
-    private AuthorRepository authorRepository;
+    private AutorRepository autorRepository;
 
     @Autowired
-    private BookRepository bookRepository;
+    private LivroRepository livroRepository;
 
 
 
    @Test
     public void saveNewAuthor(){
-        Author author = new Author();
-        author.setName("Lucas Sousa");
-        author.setDt_birth(LocalDate.of(1998, 8, 9));
-        author.setNationality("Brazil");
-        var authorsave = authorRepository.save(author);
-        System.out.println(authorsave);
+       Autor autor = new Autor();
+       autor.setNome("Lucas Sousa");
+       autor.setDt_nascimento(LocalDate.of(1998, 8, 9));
+       autor.setNacionalidade("Brazil");
+       var authorsave = autorRepository.save(autor);
+       System.out.println(authorsave);
     }
 
 

@@ -1,45 +1,43 @@
 package com.quantumwebsystem.libraryapi.repository;
 
-import com.quantumwebsystem.libraryapi.model.Author;
-import com.quantumwebsystem.libraryapi.model.Book;
-import com.quantumwebsystem.libraryapi.model.GenderBook;
+import com.quantumwebsystem.libraryapi.model.Autor;
+import com.quantumwebsystem.libraryapi.model.GeneroLivro;
+import com.quantumwebsystem.libraryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @SpringBootTest
 class BookRepositoryTest {
 
     @Autowired
-    BookRepository bookRepository;
+    LivroRepository livroRepository;
     @Autowired
-    AuthorRepository authorRepository;
+    AutorRepository autorRepository;
 
     @Test
     void salvarBookTest() {
 
-        Author author = new Author();
-        author.setName("Antonio");
-        author.setNationality("EUA");
-        author.setDt_birth(LocalDate.of(1980, 1, 1));
-        //authorRepository.save(author);
+        Autor author = new Autor();
+        author.setNome("Antonio");
+        author.setNacionalidade("EUA");
+        author.setDt_nascimento(LocalDate.of(1980, 1, 1));
+        autorRepository.save(author);
 
 
-        Book book = new Book();
-        book.setIsbn("59128918");
-        book.setPrice(BigDecimal.valueOf(100));
-        book.setGender(GenderBook.BIOGRAFIA);
-        book.setTitle("Book Title");
-        book.setDt_publication(LocalDate.of(1970, 1, 1));
-        book.setAuthor(author);
-        bookRepository.save(book);
+        Livro livro = new Livro();
+        livro.setIsbn("59128918");
+        livro.setPrice(BigDecimal.valueOf(100));
+        livro.setGenero(GeneroLivro.BIOGRAFIA);
+        livro.setTitulo("Book Title");
+        livro.setDt_publicacao(LocalDate.of(1970, 1, 1));
+        livro.setAutor(author);
+        livroRepository.save(livro);
 
         System.out.println("Book salvo com sucesso!");
-        System.out.println(book);
+        System.out.println(livro);
 
 
     }

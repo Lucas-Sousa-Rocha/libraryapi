@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class Book {
+public class Livro{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -19,14 +19,14 @@ public class Book {
     private String isbn;
 
     @Column(length = 150, nullable = false)
-    private String title;
+    private String titulo;
 
     @Column(nullable = false)
-    private LocalDate dt_publication;
+    private LocalDate dt_publicacao;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30, nullable = false)
-    private GenderBook gender;
+    private GeneroLivro genero;
 
     @Column(precision = 18, scale = 2 , nullable = false)
     private BigDecimal price;
@@ -34,8 +34,8 @@ public class Book {
     // 1:N (um para muitos) | autor pode ter vários livros, mas cada livro pertence a apenas um autor
     @ManyToOne
     @JoinColumn(name = "id_author", nullable = false)
-    private Author author;
+    private Autor autor;
 
-    public Book() {}
+    public Livro() {}
 }
 

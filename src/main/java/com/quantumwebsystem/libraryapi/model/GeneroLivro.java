@@ -1,7 +1,7 @@
 package com.quantumwebsystem.libraryapi.model;
 
 
-public enum GenderBook {
+public enum GeneroLivro {
     FICCAO,
     FANTASIA,
     MISTERIO,

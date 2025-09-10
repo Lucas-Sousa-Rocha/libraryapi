@@ -8,23 +8,23 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class Author {
+public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false, length = 60)
-    private String name;
+    private String nome;
 
     @Column(nullable = false)
-    private LocalDate dt_birth;
+    private LocalDate dt_nascimento;
 
     @Column(length = 50)
-    private String nationality;
+    private String nacionalidade;
 
-    @OneToMany(mappedBy = "author")
-    private List<Book> books;
+    @OneToMany(mappedBy = "autor")
+    private List<Livro> livros;
 
-    public Author() {}
+    public Autor() {}
 }
