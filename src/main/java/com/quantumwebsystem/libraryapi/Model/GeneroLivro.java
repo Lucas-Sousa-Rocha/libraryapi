@@ -1,4 +1,4 @@
-package com.quantumwebsystem.libraryapi.model;
+package com.quantumwebsystem.libraryapi.Model;
 
 
 public enum GeneroLivro {

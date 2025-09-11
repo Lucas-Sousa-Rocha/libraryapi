@@ -1,4 +1,4 @@
-package com.quantumwebsystem.libraryapi.config;
+package com.quantumwebsystem.libraryapi.Config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

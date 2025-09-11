@@ -1,7 +1,7 @@
-package com.quantumwebsystem.libraryapi.repository;
+package com.quantumwebsystem.libraryapi.Repository;
 
 
-import com.quantumwebsystem.libraryapi.model.Livro;
+import com.quantumwebsystem.libraryapi.Model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {

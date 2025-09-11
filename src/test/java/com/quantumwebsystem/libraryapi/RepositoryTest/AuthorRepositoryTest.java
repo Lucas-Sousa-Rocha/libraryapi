@@ -1,8 +1,8 @@
 package com.quantumwebsystem.libraryapi.RepositoryTest;
 
-import com.quantumwebsystem.libraryapi.model.Autor;
-import com.quantumwebsystem.libraryapi.repository.AutorRepository;
-import com.quantumwebsystem.libraryapi.repository.LivroRepository;
+import com.quantumwebsystem.libraryapi.Model.Autor;
+import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
+import com.quantumwebsystem.libraryapi.Repository.LivroRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

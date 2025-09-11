@@ -1,6 +1,6 @@
-package com.quantumwebsystem.libraryapi.repository;
+package com.quantumwebsystem.libraryapi.Repository;
 
-import com.quantumwebsystem.libraryapi.model.Autor;
+import com.quantumwebsystem.libraryapi.Model.Autor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 

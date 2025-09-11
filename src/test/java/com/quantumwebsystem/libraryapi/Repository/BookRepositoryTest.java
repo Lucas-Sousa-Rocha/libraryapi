@@ -1,8 +1,8 @@
-package com.quantumwebsystem.libraryapi.repository;
+package com.quantumwebsystem.libraryapi.Repository;
 
-import com.quantumwebsystem.libraryapi.model.Autor;
-import com.quantumwebsystem.libraryapi.model.GeneroLivro;
-import com.quantumwebsystem.libraryapi.model.Livro;
+import com.quantumwebsystem.libraryapi.Model.Autor;
+import com.quantumwebsystem.libraryapi.Model.GeneroLivro;
+import com.quantumwebsystem.libraryapi.Model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
