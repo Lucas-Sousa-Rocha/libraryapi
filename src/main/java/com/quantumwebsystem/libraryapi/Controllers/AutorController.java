@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/autores")
@@ -23,6 +25,15 @@ public class AutorController {
         AutorDTO autorDto = autorService.salvarAutor(autorDTO);
         URI uri = URI.create("/api/autores/" + autorDto.getId());
         return ResponseEntity.created(uri).body(autorDto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AutorDTO> obterDadosAutorPorId(@PathVariable UUID id){
+        Optional<AutorDTO> autor = autorService.obterDadosAutorPorId(id);
+        if(autor.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(autorService.obterDadosAutorPorId(id).orElse(null));
     }
 
 }

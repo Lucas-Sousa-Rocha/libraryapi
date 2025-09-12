@@ -5,7 +5,8 @@ import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AutorService {
@@ -31,6 +32,19 @@ public class AutorService {
         resposta.setNacionalidade(autorsave.getNacionalidade());
         resposta.setDt_nascimento(autorsave.getDt_nascimento());
         return resposta;
+    }
+
+    public Optional<AutorDTO> obterDadosAutorPorId(UUID id){
+        Optional<Autor> autor = autorRepository.findById(id);
+        if(autor.isPresent()){
+            AutorDTO autorDTO = new AutorDTO();
+            autorDTO.setId(autor.get().getId());
+            autorDTO.setNome(autor.get().getNome());
+            autorDTO.setNacionalidade(autor.get().getNacionalidade());
+            autorDTO.setDt_nascimento(autor.get().getDt_nascimento());
+            return Optional.of(autorDTO);
+        }
+        return Optional.empty();
     }
 
 }
