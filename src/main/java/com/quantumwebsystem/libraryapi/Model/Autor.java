@@ -1,10 +1,16 @@
 package com.quantumwebsystem.libraryapi.Model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Autor {
 
@@ -23,6 +29,17 @@ public class Autor {
 
     @OneToMany(mappedBy = "autor")
     private List<Livro> livros;
+
+    @LastModifiedDate
+    @Column
+    private LocalDateTime dt_ultima_atualizacao;
+
+    @CreatedDate
+    @Column
+    private LocalDateTime dt_cadastro;
+
+    @Column
+    private UUID id_usuario_ultima_atualizacao;
 
     public Autor() {}
 
@@ -64,5 +81,29 @@ public class Autor {
 
     public void setLivros(List<Livro> livros) {
         this.livros = livros;
+    }
+
+    public UUID getId_usuario_ultima_atualizacao() {
+        return id_usuario_ultima_atualizacao;
+    }
+
+    public void setId_usuario_ultima_atualizacao(UUID id_usuario_ultima_atualizacao) {
+        this.id_usuario_ultima_atualizacao = id_usuario_ultima_atualizacao;
+    }
+
+    public LocalDateTime getDt_ultima_atualizacao() {
+        return dt_ultima_atualizacao;
+    }
+
+    public void setDt_ultima_atualizacao(LocalDateTime dt_ultima_atualizacao) {
+        this.dt_ultima_atualizacao = dt_ultima_atualizacao;
+    }
+
+    public LocalDateTime getDt_cadastro() {
+        return dt_cadastro;
+    }
+
+    public void setDt_cadastro(LocalDateTime dt_cadastro) {
+        this.dt_cadastro = dt_cadastro;
     }
 }

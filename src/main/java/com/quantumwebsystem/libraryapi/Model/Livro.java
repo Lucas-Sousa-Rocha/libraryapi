@@ -1,10 +1,16 @@
 package com.quantumwebsystem.libraryapi.Model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Livro{
 
@@ -30,18 +36,21 @@ public class Livro{
 
     // 1:N (um para muitos) | autor pode ter vários livros, mas cada livro pertence a apenas um autor
     @ManyToOne
-    @JoinColumn(name = "id_author", nullable = false)
+    @JoinColumn(name = "id_autor", nullable = false)
     private Autor autor;
 
+    @LastModifiedDate
+    @Column
+    private LocalDateTime dt_ultima_atualizacao;
+
+    @CreatedDate
+    @Column
+    private LocalDateTime dt_cadastro;
+
+    @Column
+    private UUID id_usuario_ultima_atualizacao;
+
     public Livro() {}
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getIsbn() {
         return isbn;
@@ -89,6 +98,30 @@ public class Livro{
 
     public void setAutor(Autor autor) {
         this.autor = autor;
+    }
+
+    public LocalDateTime getDt_ultima_atualizacao() {
+        return dt_ultima_atualizacao;
+    }
+
+    public void setDt_ultima_atualizacao(LocalDateTime dt_ultima_atualizacao) {
+        this.dt_ultima_atualizacao = dt_ultima_atualizacao;
+    }
+
+    public LocalDateTime getDt_cadastro() {
+        return dt_cadastro;
+    }
+
+    public void setDt_cadastro(LocalDateTime dt_cadastro) {
+        this.dt_cadastro = dt_cadastro;
+    }
+
+    public UUID getId_usuario_ultima_atualizacao() {
+        return id_usuario_ultima_atualizacao;
+    }
+
+    public void setId_usuario_ultima_atualizacao(UUID id_usuario_ultima_atualizacao) {
+        this.id_usuario_ultima_atualizacao = id_usuario_ultima_atualizacao;
     }
 }
 
