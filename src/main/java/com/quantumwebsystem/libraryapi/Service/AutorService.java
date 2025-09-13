@@ -37,4 +37,8 @@ public class AutorService {
         return autorRepository.findByNomeContainingAndNacionalidadeContaining(nome,nacionalidade);
     }
 
+    public List<Autor> buscaPorTodosOsCampos(String pesquisa){
+        return autorRepository.pesquisarEmTodosOsCampos(pesquisa);
+    }
+
 }

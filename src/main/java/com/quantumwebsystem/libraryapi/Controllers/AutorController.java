@@ -56,8 +56,15 @@ public class AutorController {
 
     @GetMapping
     public ResponseEntity<List<AutorDTO>> obterAutores(@RequestParam(value = "nome",required = false) String nome, @RequestParam(value = "nacionalidade", required = false ) String nacionalidade){
-    List<Autor> autores = autorService.buscarPorNomeENacionalidade(nome,nacionalidade);
-    List<AutorDTO> lista = autores.stream().map( autor -> new AutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDt_nascimento()) ).collect(Collectors.toList());
+        List<Autor> autores = autorService.buscarPorNomeENacionalidade(nome,nacionalidade);
+        List<AutorDTO> lista = autores.stream().map( autor -> new AutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDt_nascimento()) ).collect(Collectors.toList());
+    return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/pesquisar")
+    public ResponseEntity<List<AutorDTO>> buscaPorTodosOsCampos(@RequestParam(value = "pesquisa") String pesquisa){
+        List<Autor> autores = autorService.buscaPorTodosOsCampos(pesquisa);
+        List<AutorDTO> lista = autores.stream().map( autor -> new AutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDt_nascimento()) ).collect(Collectors.toList());
     return ResponseEntity.ok(lista);
     }
 
