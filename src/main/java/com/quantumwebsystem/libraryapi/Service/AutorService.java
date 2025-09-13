@@ -5,6 +5,7 @@ import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,33 +19,23 @@ public class AutorService {
     }
 
 
-    public AutorDTO salvarAutor(AutorDTO autorDTO){
-        Autor autor = new Autor();
-        autor.setNome(autorDTO.getNome());
-        autor.setNacionalidade(autorDTO.getNacionalidade());
-        autor.setDt_nascimento(autorDTO.getDt_nascimento());
-
-        var autorsave = autorRepository.save(autor);
-
-        AutorDTO resposta = new AutorDTO();
-        resposta.setId(autorsave.getId());
-        resposta.setNome(autorsave.getNome());
-        resposta.setNacionalidade(autorsave.getNacionalidade());
-        resposta.setDt_nascimento(autorsave.getDt_nascimento());
-        return resposta;
+    public Autor salvarAutor(Autor autor){
+            return autorRepository.save(autor);
     }
 
     public Optional<AutorDTO> obterDadosAutorPorId(UUID id){
         Optional<Autor> autor = autorRepository.findById(id);
         if(autor.isPresent()){
-            AutorDTO autorDTO = new AutorDTO();
-            autorDTO.setId(autor.get().getId());
-            autorDTO.setNome(autor.get().getNome());
-            autorDTO.setNacionalidade(autor.get().getNacionalidade());
-            autorDTO.setDt_nascimento(autor.get().getDt_nascimento());
             return Optional.of(autorDTO);
         }
-        return Optional.empty();
+            return Optional.empty();
     }
 
+    public void excluirAutor(UUID id){
+            autorRepository.deleteById(id);
+        }
+
+    public List<Autor> buscarPorNomeENacionalidade(String nome, String nacionalidade){
+        return autorRepository.findByNomeAndNacionalidade(nome,nacionalidade);
+    }
 }
