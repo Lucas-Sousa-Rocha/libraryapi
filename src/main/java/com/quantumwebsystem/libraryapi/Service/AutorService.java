@@ -3,7 +3,6 @@ package com.quantumwebsystem.libraryapi.Service;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,4 +40,10 @@ public class AutorService {
         return autorRepository.pesquisarEmTodosOsCampos(pesquisa);
     }
 
+    public void editarAutor(Autor autor) {
+        if(autor.getId() == null){
+            throw new IllegalArgumentException("Erro, para editar o autor deve existir !!");
+        }
+        autorRepository.save(autor);
+    }
 }
