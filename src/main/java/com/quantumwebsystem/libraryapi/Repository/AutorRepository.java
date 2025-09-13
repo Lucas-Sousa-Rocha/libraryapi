@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AutorRepository extends JpaRepository<Autor, UUID> {
-    List<Autor> findByNomeAndNacionalidade(String nome, String nacionalidade);
+    List<Autor> findByNomeContainingAndNacionalidadeContaining(String nome, String nacionalidade);
 }

@@ -1,6 +1,5 @@
 package com.quantumwebsystem.libraryapi.Service;
 
-import com.quantumwebsystem.libraryapi.Controllers.DTO.AutorDTO;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
 import org.springframework.stereotype.Service;
@@ -18,9 +17,8 @@ public class AutorService {
         this.autorRepository = autorRepository;
     }
 
-
-    public Autor salvarAutor(Autor autor){
-            return autorRepository.save(autor);
+    public void salvarAutor(Autor autor){
+        autorRepository.save(autor);
     }
 
     public Optional<Autor> obterDadosAutorPorId(UUID id){
@@ -36,6 +34,7 @@ public class AutorService {
         }
 
     public List<Autor> buscarPorNomeENacionalidade(String nome, String nacionalidade){
-        return autorRepository.findByNomeAndNacionalidade(nome,nacionalidade);
+        return autorRepository.findByNomeContainingAndNacionalidadeContaining(nome,nacionalidade);
     }
+
 }

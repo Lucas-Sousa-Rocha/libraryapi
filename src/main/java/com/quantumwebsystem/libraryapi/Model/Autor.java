@@ -43,6 +43,16 @@ public class Autor {
 
     public Autor() {}
 
+    public Autor(String nome, LocalDate dt_nascimento, String nacionalidade, List<Livro> livros, LocalDateTime dt_ultima_atualizacao, LocalDateTime dt_cadastro, UUID id_usuario_ultima_atualizacao) {
+        this.nome = nome;
+        this.dt_nascimento = dt_nascimento;
+        this.nacionalidade = nacionalidade;
+        this.livros = livros;
+        this.dt_ultima_atualizacao = dt_ultima_atualizacao;
+        this.dt_cadastro = dt_cadastro;
+        this.id_usuario_ultima_atualizacao = id_usuario_ultima_atualizacao;
+    }
+
     public UUID getId() {
         return id;
     }
