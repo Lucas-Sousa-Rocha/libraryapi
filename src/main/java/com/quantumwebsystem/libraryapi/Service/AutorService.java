@@ -23,12 +23,12 @@ public class AutorService {
             return autorRepository.save(autor);
     }
 
-    public Optional<AutorDTO> obterDadosAutorPorId(UUID id){
+    public Optional<Autor> obterDadosAutorPorId(UUID id){
         Optional<Autor> autor = autorRepository.findById(id);
-        if(autor.isPresent()){
-            return Optional.of(autorDTO);
-        }
+        if(autor.isEmpty()){
             return Optional.empty();
+        }
+        return  autorRepository.findById(id);
     }
 
     public void excluirAutor(UUID id){

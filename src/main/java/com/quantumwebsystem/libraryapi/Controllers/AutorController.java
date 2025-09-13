@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,10 +24,12 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<AutorDTO> salvarAutor(@RequestBody AutorDTO autorDTO) {
-        AutorDTO autorDto = autorService.salvarAutor(autorDTO);
-        URI uri = URI.create("/api/autores/" + autorDto.getId());
-        return ResponseEntity.created(uri).body(autorDto);
+    public ResponseEntity<AutorDTO> salvarAutor(@RequestBody AutorDTO autor) {
+
+        Autor autorEntidade = autor.AutorDTO();
+        autorService.salvarAutor(autorEntidade);
+        URI uri = URI.create("/api/autores/" + autorEntidade.getId());
+        return ResponseEntity.created(uri).body(autorEntidade);
     }
 
     @GetMapping("/{id}")
