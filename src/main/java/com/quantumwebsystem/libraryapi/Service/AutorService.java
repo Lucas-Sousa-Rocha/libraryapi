@@ -24,6 +24,13 @@ public class AutorService {
         autorRepository.save(autor);
     }
 
+    /*public void salvarAutor(Autor autor){
+        String nomeAutor = autor.getNome().trim().toUpperCase();
+        List<Autor> autorlist = autorRepository.findByNome(nomeAutor);
+        autorlist.
+        autorRepository.save(autor);
+    }*/
+
     public Optional<Autor> obterDadosAutorPorId(UUID id){
         Optional<Autor> autor = autorRepository.findById(id);
         if(autor.isEmpty()){

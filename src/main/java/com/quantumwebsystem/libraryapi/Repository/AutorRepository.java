@@ -9,13 +9,17 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AutorRepository extends JpaRepository<Autor, UUID> {
-    List<Autor> findByNomeContainingAndNacionalidadeContaining(String nome, String nacionalidade);
 
-    @Query("SELECT a FROM Autor a " +
-            "WHERE LOWER(a.nome) LIKE LOWER(CONCAT('%', :pesquisa, '%')) " +
-            "   OR LOWER(a.nacionalidade) LIKE LOWER(CONCAT('%', :pesquisa, '%')) " +
-            "   OR CAST(a.dt_nascimento AS string) LIKE CONCAT('%', :pesquisa, '%')")
+    @Query("""
+
+            SELECT a FROM Autor a
+    WHERE LOWER(a.nome) LIKE LOWER(CONCAT('%', :pesquisa, '%'))
+       OR LOWER(a.nacionalidade) LIKE LOWER(CONCAT('%', :pesquisa, '%'))
+       OR CAST(FUNCTION('TO_CHAR', a.dt_nascimento, 'DDMMYYYY') AS string) LIKE CONCAT('%', :pesquisa, '%')""")
     List<Autor> pesquisarEmTodosOsCampos(@Param("pesquisa") String pesquisa);
 
-    boolean existsByNome(String nome);
-}
+    boolean existsByNomeIgnoreCase(String nome);
+
+    List<Autor> findByNomeContainingAndNacionalidadeContaining(String nome, String nacionalidade);
+
+    }

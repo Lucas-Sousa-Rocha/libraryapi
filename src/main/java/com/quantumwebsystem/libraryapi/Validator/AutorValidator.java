@@ -13,13 +13,10 @@ public class AutorValidator {
         this.autorRepository = autorRepository;
     }
 
-    public void validarAutor(Autor novoAutor){
-        if (validaNomeAutor(novoAutor.getNome())){
-            throw new IllegalArgumentException("Já existe um autor com esse nome!!");
+    public void validarAutor(Autor novoAutor) {
+        if (autorRepository.existsByNomeIgnoreCase(novoAutor.getNome().trim())){
+            throw new IllegalArgumentException("Já existe um autor com esse nome");
         }
     }
 
-    public boolean validaNomeAutor(String nomeAutor){
-        return autorRepository.existsByNome(nomeAutor);
-    }
 }
