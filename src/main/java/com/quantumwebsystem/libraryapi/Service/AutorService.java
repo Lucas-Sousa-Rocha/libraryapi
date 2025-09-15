@@ -2,6 +2,7 @@ package com.quantumwebsystem.libraryapi.Service;
 
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
+import com.quantumwebsystem.libraryapi.Validator.AutorValidator;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -11,12 +12,15 @@ import java.util.UUID;
 public class AutorService {
 
     private final AutorRepository autorRepository;
+    private final AutorValidator autorValidator;
 
-    public AutorService(AutorRepository autorRepository) {
+    public AutorService(AutorRepository autorRepository, AutorValidator autorValidator) {
         this.autorRepository = autorRepository;
+        this.autorValidator = autorValidator;
     }
 
     public void salvarAutor(Autor autor){
+        autorValidator.validarAutor(autor);
         autorRepository.save(autor);
     }
 

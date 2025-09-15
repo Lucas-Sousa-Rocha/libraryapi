@@ -16,4 +16,6 @@ public interface AutorRepository extends JpaRepository<Autor, UUID> {
             "   OR LOWER(a.nacionalidade) LIKE LOWER(CONCAT('%', :pesquisa, '%')) " +
             "   OR CAST(a.dt_nascimento AS string) LIKE CONCAT('%', :pesquisa, '%')")
     List<Autor> pesquisarEmTodosOsCampos(@Param("pesquisa") String pesquisa);
+
+    boolean existsByNome(String nome);
 }

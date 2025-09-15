@@ -3,7 +3,10 @@ package com.quantumwebsystem.libraryapi.Controllers;
 import com.quantumwebsystem.libraryapi.Controllers.DTO.AutorDTO;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Service.AutorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
@@ -23,11 +26,16 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarAutor(@RequestBody AutorDTO autor) {
-        Autor autorEntidade = autor.maperAutorDTO();
-        autorService.salvarAutor(autorEntidade);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autorEntidade.getId()).toUri();
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<Void> salvarAutor(@RequestBody AutorDTO autor, Errors errors) {
+        try {
+            Autor autorEntidade = autor.maperAutorDTO();
+            autorService.salvarAutor(autorEntidade);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autorEntidade.getId()).toUri();
+            return ResponseEntity.created(location).build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
     }
 
     @GetMapping("/{id}")
