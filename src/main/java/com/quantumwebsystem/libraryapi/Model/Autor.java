@@ -21,7 +21,7 @@ public class Autor {
     private String nome;
 
     @Column(nullable = false)
-    private LocalDate dt_nascimento;
+    private LocalDate dtNascimento;
 
     @Column(length = 50)
     private String nacionalidade;
@@ -31,25 +31,28 @@ public class Autor {
 
     @LastModifiedDate
     @Column
-    private LocalDateTime dt_ultima_atualizacao;
+    private LocalDateTime dtUltimaAtualizacao;
 
     @CreatedDate
     @Column
-    private LocalDateTime dt_cadastro;
+    private LocalDateTime dtCadastro;
 
     @Column
-    private UUID id_usuario_ultima_atualizacao;
+    private UUID idUsuarioUltimaAtualizacao;
 
-    public Autor() {}
-
-    public Autor(String nome, LocalDate dt_nascimento, String nacionalidade, List<Livro> livros, LocalDateTime dt_ultima_atualizacao, LocalDateTime dt_cadastro, UUID id_usuario_ultima_atualizacao) {
+    public Autor(UUID id, String nome, LocalDate dtNascimento, String nacionalidade, List<Livro> livros, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
+        this.id = id;
         this.nome = nome;
-        this.dt_nascimento = dt_nascimento;
+        this.dtNascimento = dtNascimento;
         this.nacionalidade = nacionalidade;
         this.livros = livros;
-        this.dt_ultima_atualizacao = dt_ultima_atualizacao;
-        this.dt_cadastro = dt_cadastro;
-        this.id_usuario_ultima_atualizacao = id_usuario_ultima_atualizacao;
+        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
+        this.dtCadastro = dtCadastro;
+        this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
+    }
+
+    public Autor() {
+
     }
 
     public UUID getId() {
@@ -68,12 +71,12 @@ public class Autor {
         this.nome = nome;
     }
 
-    public LocalDate getDt_nascimento() {
-        return dt_nascimento;
+    public LocalDate getDtNascimento() {
+        return dtNascimento;
     }
 
-    public void setDt_nascimento(LocalDate dt_nascimento) {
-        this.dt_nascimento = dt_nascimento;
+    public void setDtNascimento(LocalDate dtNascimento) {
+        this.dtNascimento = dtNascimento;
     }
 
     public String getNacionalidade() {
@@ -92,27 +95,27 @@ public class Autor {
         this.livros = livros;
     }
 
-    public UUID getId_usuario_ultima_atualizacao() {
-        return id_usuario_ultima_atualizacao;
+    public LocalDateTime getDtUltimaAtualizacao() {
+        return dtUltimaAtualizacao;
     }
 
-    public void setId_usuario_ultima_atualizacao(UUID id_usuario_ultima_atualizacao) {
-        this.id_usuario_ultima_atualizacao = id_usuario_ultima_atualizacao;
+    public void setDtUltimaAtualizacao(LocalDateTime dtUltimaAtualizacao) {
+        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
     }
 
-    public LocalDateTime getDt_ultima_atualizacao() {
-        return dt_ultima_atualizacao;
+    public LocalDateTime getDtCadastro() {
+        return dtCadastro;
     }
 
-    public void setDt_ultima_atualizacao(LocalDateTime dt_ultima_atualizacao) {
-        this.dt_ultima_atualizacao = dt_ultima_atualizacao;
+    public void setDtCadastro(LocalDateTime dtCadastro) {
+        this.dtCadastro = dtCadastro;
     }
 
-    public LocalDateTime getDt_cadastro() {
-        return dt_cadastro;
+    public UUID getIdUsuarioUltimaAtualizacao() {
+        return idUsuarioUltimaAtualizacao;
     }
 
-    public void setDt_cadastro(LocalDateTime dt_cadastro) {
-        this.dt_cadastro = dt_cadastro;
+    public void setIdUsuarioUltimaAtualizacao(UUID idUsuarioUltimaAtualizacao) {
+        this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
 }

@@ -23,7 +23,7 @@ class BookRepositoryTest {
         Autor author = new Autor();
         author.setNome("Antonio");
         author.setNacionalidade("EUA");
-        author.setDt_nascimento(LocalDate.of(1980, 1, 1));
+        author.setDtNascimento(LocalDate.of(1980, 1, 1));
         autorRepository.save(author);
 
 
@@ -38,10 +38,7 @@ class BookRepositoryTest {
 
         System.out.println("Book salvo com sucesso!");
         System.out.println(livro);
-
-
     }
-
 
 
 }

@@ -48,6 +48,7 @@ public class AutorService {
         if(autor.getId() == null){
             throw new IllegalArgumentException("Erro, para editar o autor deve existir !!");
         }
+        autorValidator.validarAutor(autor);
         autorRepository.save(autor);
     }
 }
