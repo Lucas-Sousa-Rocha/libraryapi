@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
+import java.util.List;
 
 @SpringBootTest
 public class AuthorRepositoryTest {
@@ -27,4 +28,9 @@ public class AuthorRepositoryTest {
        System.out.println(authorsave);
     }
 
+    @Test
+    public void buscaInteligente(){
+       List<Autor> listaAutor = autorRepository.pesquisarEmTodosOsCampos("lucas");
+        listaAutor.forEach( autor -> System.out.println(autor.getNome() + " " + autor.getNacionalidade() + " " + autor.getDtNascimento()) );
+    }
 }

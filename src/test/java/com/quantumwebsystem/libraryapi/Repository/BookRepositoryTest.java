@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Model.GeneroLivro;
 import com.quantumwebsystem.libraryapi.Model.Livro;
+import com.quantumwebsystem.libraryapi.Service.AutorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,8 @@ class BookRepositoryTest {
     LivroRepository livroRepository;
     @Autowired
     AutorRepository autorRepository;
+    @Autowired
+    AutorService autorService;
 
     @Test
     void salvarLivroEAutor() {
@@ -54,6 +57,15 @@ class BookRepositoryTest {
      livro.setDt_publicacao(LocalDate.of(1970, 1, 1));
      livro.setAutor(autor);
      livroRepository.save(livro);
+    }
+
+    @Test
+    public void salvarAutor(){
+        Autor autor = new Autor();
+        autor.setNome("Antonio");
+        autor.setNacionalidade("EUA");
+        autor.setDtNascimento(LocalDate.of(1980, 1, 1));
+        autorService.salvarAutor(autor);
     }
 
 
