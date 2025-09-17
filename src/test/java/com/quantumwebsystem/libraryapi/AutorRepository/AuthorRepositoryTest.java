@@ -1,8 +1,8 @@
-package com.quantumwebsystem.libraryapi.RepositoryTest;
+package com.quantumwebsystem.libraryapi.AutorRepository;
 
 import com.quantumwebsystem.libraryapi.Model.Autor;
-import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
-import com.quantumwebsystem.libraryapi.Repository.LivroRepository;
+import com.quantumwebsystem.libraryapi.LivroRepository.AutorRepository;
+import com.quantumwebsystem.libraryapi.LivroRepository.LivroRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,5 +32,15 @@ public class AuthorRepositoryTest {
     public void buscaInteligente(){
        List<Autor> listaAutor = autorRepository.pesquisarEmTodosOsCampos("lucas");
         listaAutor.forEach( autor -> System.out.println(autor.getNome() + " " + autor.getNacionalidade() + " " + autor.getDtNascimento()) );
+    }
+
+    @Test
+    public void excluirTodosAutores(){
+       autorRepository.deleteAll();
+    }
+
+    @Test
+    public void excluirTodosLivros(){
+       livroRepository.deleteAll();
     }
 }

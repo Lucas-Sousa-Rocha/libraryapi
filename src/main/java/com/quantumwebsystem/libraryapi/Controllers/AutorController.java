@@ -81,7 +81,7 @@ public class AutorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> editarAutor(@PathVariable(value = "id") UUID id, @RequestBody AutorDTO autorDto){
+    public ResponseEntity<Object> editarAutor(@PathVariable(value = "id") UUID id, @RequestBody @Valid AutorDTO autorDto){
         try {
             Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
             if (autorOptional.isEmpty()) {

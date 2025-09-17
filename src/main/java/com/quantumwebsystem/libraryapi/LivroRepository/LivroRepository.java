@@ -1,6 +1,5 @@
-package com.quantumwebsystem.libraryapi.Repository;
+package com.quantumwebsystem.libraryapi.LivroRepository;
 
-import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 
