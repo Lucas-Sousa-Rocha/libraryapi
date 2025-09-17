@@ -23,15 +23,15 @@ public class Livro{
     @Column(length = 150, nullable = false)
     private String titulo;
 
-    @Column(nullable = false)
-    private LocalDate dt_publicacao;
+    @Column(nullable = false, name = "dt_publicacao")
+    private LocalDate dtPublicacao;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 30, nullable = false)
     private GeneroLivro genero;
 
     @Column(precision = 18, scale = 2 , nullable = false)
-    private BigDecimal price;
+    private BigDecimal preco;
 
     // 1:N (um para muitos) | autor pode ter vários livros, mas cada livro pertence a apenas um autor
     @ManyToOne
@@ -39,17 +39,38 @@ public class Livro{
     private Autor autor;
 
     @LastModifiedDate
-    @Column
-    private LocalDateTime dt_ultima_atualizacao;
+    @Column(name = "dt_ultima_atualizacao")
+    private LocalDateTime dtUltimaAtualizacao;
 
     @CreatedDate
-    @Column
-    private LocalDateTime dt_cadastro;
+    @Column(name = "dt_cadastro")
+    private LocalDateTime dtCadastro;
 
-    @Column
-    private UUID id_usuario_ultima_atualizacao;
+    @Column(name = "id_usuario_ultima_atualizacao")
+    private UUID idUsuarioUltimaAtualizacao;
 
-    public Livro() {}
+    public Livro() {
+    }
+
+    public Livro(String isbn, String titulo, LocalDate dtPublicacao, GeneroLivro genero, BigDecimal preco, Autor autor, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
+        this.isbn = isbn;
+        this.titulo = titulo;
+        this.dtPublicacao = dtPublicacao;
+        this.genero = genero;
+        this.preco = preco;
+        this.autor = autor;
+        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
+        this.dtCadastro = dtCadastro;
+        this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getIsbn() {
         return isbn;
@@ -67,12 +88,12 @@ public class Livro{
         this.titulo = titulo;
     }
 
-    public LocalDate getDt_publicacao() {
-        return dt_publicacao;
+    public LocalDate getDtPublicacao() {
+        return dtPublicacao;
     }
 
-    public void setDt_publicacao(LocalDate dt_publicacao) {
-        this.dt_publicacao = dt_publicacao;
+    public void setDtPublicacao(LocalDate dtPublicacao) {
+        this.dtPublicacao = dtPublicacao;
     }
 
     public GeneroLivro getGenero() {
@@ -83,12 +104,12 @@ public class Livro{
         this.genero = genero;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getPreco() {
+        return preco;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
     }
 
     public Autor getAutor() {
@@ -99,28 +120,28 @@ public class Livro{
         this.autor = autor;
     }
 
-    public LocalDateTime getDt_ultima_atualizacao() {
-        return dt_ultima_atualizacao;
+    public LocalDateTime getDtUltimaAtualizacao() {
+        return dtUltimaAtualizacao;
     }
 
-    public void setDt_ultima_atualizacao(LocalDateTime dt_ultima_atualizacao) {
-        this.dt_ultima_atualizacao = dt_ultima_atualizacao;
+    public void setDtUltimaAtualizacao(LocalDateTime dtUltimaAtualizacao) {
+        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
     }
 
-    public LocalDateTime getDt_cadastro() {
-        return dt_cadastro;
+    public LocalDateTime getDtCadastro() {
+        return dtCadastro;
     }
 
-    public void setDt_cadastro(LocalDateTime dt_cadastro) {
-        this.dt_cadastro = dt_cadastro;
+    public void setDtCadastro(LocalDateTime dtCadastro) {
+        this.dtCadastro = dtCadastro;
     }
 
-    public UUID getId_usuario_ultima_atualizacao() {
-        return id_usuario_ultima_atualizacao;
+    public UUID getIdUsuarioUltimaAtualizacao() {
+        return idUsuarioUltimaAtualizacao;
     }
 
-    public void setId_usuario_ultima_atualizacao(UUID id_usuario_ultima_atualizacao) {
-        this.id_usuario_ultima_atualizacao = id_usuario_ultima_atualizacao;
+    public void setIdUsuarioUltimaAtualizacao(UUID idUsuarioUltimaAtualizacao) {
+        this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
 }
 

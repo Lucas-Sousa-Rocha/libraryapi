@@ -33,10 +33,10 @@ class BookRepositoryTest {
 
         Livro livro = new Livro();
         livro.setIsbn("59128918");
-        livro.setPrice(BigDecimal.valueOf(100));
+        livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.BIOGRAFIA);
         livro.setTitulo("Book Title");
-        livro.setDt_publicacao(LocalDate.of(1970, 1, 1));
+        livro.setDtPublicacao(LocalDate.of(1970, 1, 1));
         livro.setAutor(author);
         livroRepository.save(livro);
 
@@ -50,10 +50,10 @@ class BookRepositoryTest {
      Autor autor = new Autor();
      autor.setId(UUID.fromString("06172c1a-d302-486a-ae9d-7ef34d920dbb"));
      livro.setIsbn("59128918");
-     livro.setPrice(BigDecimal.valueOf(100));
+     livro.setPreco(BigDecimal.valueOf(100));
      livro.setGenero(GeneroLivro.BIOGRAFIA);
      livro.setTitulo("Book Title");
-     livro.setDt_publicacao(LocalDate.of(1970, 1, 1));
+     livro.setDtPublicacao(LocalDate.of(1970, 1, 1));
      livro.setAutor(autor);
      livroRepository.save(livro);
     }

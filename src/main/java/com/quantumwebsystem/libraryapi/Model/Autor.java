@@ -20,7 +20,7 @@ public class Autor {
     @Column(nullable = false, length = 60)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "dt_nascimento")
     private LocalDate dtNascimento;
 
     @Column(length = 50)
@@ -30,14 +30,14 @@ public class Autor {
     private List<Livro> livros;
 
     @LastModifiedDate
-    @Column
+    @Column(name = "dt_ultima_atualizacao")
     private LocalDateTime dtUltimaAtualizacao;
 
     @CreatedDate
-    @Column
+    @Column(name = "dt_cadastro")
     private LocalDateTime dtCadastro;
 
-    @Column
+    @Column(name = "id_usuario_ultima_atualizacao")
     private UUID idUsuarioUltimaAtualizacao;
 
     public Autor(UUID id, String nome, LocalDate dtNascimento, String nacionalidade, List<Livro> livros, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
