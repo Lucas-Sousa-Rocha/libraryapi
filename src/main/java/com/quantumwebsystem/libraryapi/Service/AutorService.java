@@ -33,6 +33,7 @@ public class AutorService {
     }
 
     public void excluirAutor(UUID id){
+            autorValidator.validarSeAutorPussuilivros(id);
             autorRepository.deleteById(id);
         }
 

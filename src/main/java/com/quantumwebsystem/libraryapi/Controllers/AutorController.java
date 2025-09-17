@@ -2,6 +2,7 @@ package com.quantumwebsystem.libraryapi.Controllers;
 
 import com.quantumwebsystem.libraryapi.Controllers.DTO.AutorDTO;
 import com.quantumwebsystem.libraryapi.Controllers.DTO.ErroResposta;
+import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Service.AutorService;
@@ -51,12 +52,17 @@ public class AutorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluirAutor(@PathVariable UUID id){
-        Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
-        if(autorOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
+        try {
+            Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
+            if (autorOptional.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            autorService.excluirAutor(id);
+            return ResponseEntity.noContent().build();
+        } catch (OperacaoNaoPermitida e) {
+            var erroDTO = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(erroDTO.status()).build();
         }
-        autorService.excluirAutor(id);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
