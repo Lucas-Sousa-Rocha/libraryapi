@@ -51,7 +51,7 @@ public class AutorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirAutor(@PathVariable UUID id){
+    public ResponseEntity<Object> excluirAutor(@PathVariable UUID id){
         try {
             Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
             if (autorOptional.isEmpty()) {
@@ -61,7 +61,7 @@ public class AutorController {
             return ResponseEntity.noContent().build();
         } catch (OperacaoNaoPermitida e) {
             var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).build();
+            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
         }
     }
 
