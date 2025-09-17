@@ -6,6 +6,7 @@ import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Service.AutorService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,7 +27,7 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvarAutor(@RequestBody AutorDTO autor) {
+    public ResponseEntity<Object> salvarAutor(@RequestBody @Valid AutorDTO autor) {
         try {
             Autor autorEntidade = autor.maperAutorDTO();
             autorService.salvarAutor(autorEntidade);
