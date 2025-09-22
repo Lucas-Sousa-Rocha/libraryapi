@@ -51,7 +51,8 @@ public class Livro{
 
     public Livro() {}
 
-    public Livro(String isbn, String titulo, LocalDate dtPublicacao, GeneroLivro genero, BigDecimal preco, Autor autor, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
+    public Livro(UUID id, String isbn, String titulo, LocalDate dtPublicacao, GeneroLivro genero, BigDecimal preco, Autor autor, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
+        this.id = id;
         this.isbn = isbn;
         this.titulo = titulo;
         this.dtPublicacao = dtPublicacao;
@@ -142,6 +143,5 @@ public class Livro{
     public void setIdUsuarioUltimaAtualizacao(UUID idUsuarioUltimaAtualizacao) {
         this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
-
 }
 

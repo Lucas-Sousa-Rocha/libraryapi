@@ -1,7 +1,8 @@
 package com.quantumwebsystem.libraryapi.Controllers;
 
-import com.quantumwebsystem.libraryapi.DTO.AutorDTO;
 import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
+import com.quantumwebsystem.libraryapi.DTO.RequestAutorDTO;
+import com.quantumwebsystem.libraryapi.DTO.ResponseAutorDTO;
 import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import com.quantumwebsystem.libraryapi.Mappers.AutorMapper;
@@ -30,7 +31,7 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvarAutor(@RequestBody @Valid AutorDTO autorDTO) {
+    public ResponseEntity<Object> salvarAutor(@RequestBody @Valid RequestAutorDTO autorDTO) {
         try {
             Autor autor = autorMapper.toEntity(autorDTO);
             autorService.salvarAutor(autor);
@@ -43,10 +44,9 @@ public class AutorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AutorDTO> obterDadosAutorPorId(@PathVariable UUID id){
-        return autorService.obterDadosAutorPorId(id)
-                .map(autor -> {AutorDTO autorDTO = autorMapper.toDTO(autor); return ResponseEntity.ok(autorDTO);})
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ResponseAutorDTO> obterDadosAutorPorId(@PathVariable UUID id){
+        return autorService.obterDadosAutorPorId(id).map(autor -> {ResponseAutorDTO autorDTO = autorMapper.toDTO(autor);
+            return ResponseEntity.ok(autorDTO);}).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
@@ -65,21 +65,21 @@ public class AutorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AutorDTO>> obterAutores(@RequestParam(value = "nome",required = false) String nome, @RequestParam(value = "nacionalidade", required = false ) String nacionalidade){
+    public ResponseEntity<List<ResponseAutorDTO>> obterAutores(@RequestParam(value = "nome",required = false) String nome, @RequestParam(value = "nacionalidade", required = false ) String nacionalidade){
         List<Autor> autores = autorService.pesquisarByExemple(nome,nacionalidade);
-        List<AutorDTO> lista = autores.stream().map(autorMapper::toDTO).collect(Collectors.toList());
+        List<ResponseAutorDTO> lista = autores.stream().map(autorMapper::toDTO).collect(Collectors.toList());
     return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/pesquisar")
-    public ResponseEntity<List<AutorDTO>> buscaPorTodosOsCampos(@RequestParam(value = "pesquisa") String pesquisa){
-        List<Autor> autores = autorService.buscaPorTodosOsCampos(pesquisa);
-        List<AutorDTO> lista = autores.stream().map( autor -> new AutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDtNascimento()) ).collect(Collectors.toList());
+    public ResponseEntity<List<ResponseAutorDTO>> buscaPorTodosOsCampos(@RequestParam(value = "pesquisa") String pesquisa) {
+    List<Autor> autores = autorService.buscaPorTodosOsCampos(pesquisa);
+    List<ResponseAutorDTO> lista = autores.stream().map(autor -> new ResponseAutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDtNascimento())).collect(Collectors.toList());
     return ResponseEntity.ok(lista);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> editarAutor(@PathVariable(value = "id") UUID id, @RequestBody @Valid AutorDTO autorDto){
+    public ResponseEntity<Object> editarAutor(@PathVariable(value = "id") UUID id, @RequestBody @Valid ResponseAutorDTO autorDto){
         try {
             Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
             if (autorOptional.isEmpty()) {

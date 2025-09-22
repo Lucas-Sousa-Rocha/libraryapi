@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record AutorDTO(
+public record RequestAutorDTO(
         UUID id,
         @NotBlank(message = "Campo Obrigatorio !!")
         @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres !!")
@@ -17,5 +17,6 @@ public record AutorDTO(
         String nacionalidade,
         @NotNull
         @Past(message = "Não pode ser uma data futura")
-        LocalDate dtNascimento){
+        LocalDate dtNascimento
+) {
 }

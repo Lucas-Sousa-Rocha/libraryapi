@@ -40,6 +40,8 @@ public class Autor {
     @Column(name = "id_usuario_ultima_atualizacao")
     private UUID idUsuarioUltimaAtualizacao;
 
+    public Autor() {}
+
     public Autor(UUID id, String nome, LocalDate dtNascimento, String nacionalidade, List<Livro> livros, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
         this.id = id;
         this.nome = nome;
@@ -50,8 +52,6 @@ public class Autor {
         this.dtCadastro = dtCadastro;
         this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
-
-    public Autor() {}
 
     public UUID getId() {
         return id;
@@ -116,5 +116,4 @@ public class Autor {
     public void setIdUsuarioUltimaAtualizacao(UUID idUsuarioUltimaAtualizacao) {
         this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
-
 }

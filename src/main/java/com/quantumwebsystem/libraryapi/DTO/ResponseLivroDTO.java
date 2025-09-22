@@ -5,13 +5,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record ResultadoPesquisaLivroDTO(
+public record ResponseLivroDTO(
         UUID id,
         String isbn,
         String titulo,
         LocalDate dtPublicacao,
         GeneroLivro genero,
         BigDecimal preco,
-        AutorDTO autor
-        ) {
-}
+        RequestAutorDTO autor // usa o AutorDTO existente
+) {}

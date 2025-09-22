@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record CadastroLivroDTO(
+public record RequestLivroDTO(
         @ISBN(message = "O Campo ISBN é Inválido")
         @NotBlank(message = "O Campo ISBN é Obrigatorio !!")
         String isbn,
@@ -21,6 +21,6 @@ public record CadastroLivroDTO(
         GeneroLivro genero,
         BigDecimal preco,
         @NotNull(message = "O Campo ID Autor é Obrigatorio !!")
-        UUID autorId
+        UUID idAutor
         ) {
 }
