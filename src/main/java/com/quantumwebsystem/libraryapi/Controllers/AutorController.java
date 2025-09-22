@@ -4,6 +4,7 @@ import com.quantumwebsystem.libraryapi.DTO.AutorDTO;
 import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
 import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
+import com.quantumwebsystem.libraryapi.Mappers.AutorMapper;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Service.AutorService;
 import jakarta.validation.Valid;
@@ -21,34 +22,31 @@ import java.util.stream.Collectors;
 public class AutorController {
 
     private final AutorService autorService;
+    private final AutorMapper autorMapper;
 
-    public AutorController(AutorService autorService) {
+    public AutorController(AutorService autorService, AutorMapper autorMapper) {
         this.autorService = autorService;
+        this.autorMapper = autorMapper;
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvarAutor(@RequestBody @Valid AutorDTO autor) {
+    public ResponseEntity<Object> salvarAutor(@RequestBody @Valid AutorDTO autorDTO) {
         try {
-            Autor autorEntidade = autor.maperAutorDTO();
-            autorService.salvarAutor(autorEntidade);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autorEntidade.getId()).toUri();
+            Autor autor = autorMapper.toEntity(autorDTO);
+            autorService.salvarAutor(autor);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autor.getId()).toUri();
             return ResponseEntity.created(location).build();
         } catch (ResgistroDuplicado e) {
             var erroDTO = ErroResposta.conflito(e.getMessage());
             return ResponseEntity.status(erroDTO.status()).body(erroDTO);
         }
-
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AutorDTO> obterDadosAutorPorId(@PathVariable UUID id){
-        Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
-        if(autorOptional.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        Autor autor = autorOptional.get();
-        AutorDTO autorDTO = new AutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDtNascimento());
-        return ResponseEntity.ok(autorDTO);
+        return autorService.obterDadosAutorPorId(id)
+                .map(autor -> {AutorDTO autorDTO = autorMapper.toDTO(autor); return ResponseEntity.ok(autorDTO);})
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
@@ -69,7 +67,7 @@ public class AutorController {
     @GetMapping
     public ResponseEntity<List<AutorDTO>> obterAutores(@RequestParam(value = "nome",required = false) String nome, @RequestParam(value = "nacionalidade", required = false ) String nacionalidade){
         List<Autor> autores = autorService.pesquisarByExemple(nome,nacionalidade);
-        List<AutorDTO> lista = autores.stream().map( autor -> new AutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDtNascimento()) ).collect(Collectors.toList());
+        List<AutorDTO> lista = autores.stream().map(autorMapper::toDTO).collect(Collectors.toList());
     return ResponseEntity.ok(lista);
     }
 

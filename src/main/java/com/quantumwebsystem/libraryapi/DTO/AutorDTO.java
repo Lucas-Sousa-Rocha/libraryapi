@@ -1,6 +1,5 @@
 package com.quantumwebsystem.libraryapi.DTO;
 
-import com.quantumwebsystem.libraryapi.Model.Autor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -19,12 +18,4 @@ public record AutorDTO(
         @NotNull
         @Past(message = "Não pode ser uma data futura")
         LocalDate dtNascimento){
-
-    public Autor maperAutorDTO() {
-        Autor autor = new Autor();
-        autor.setNome(nome);
-        autor.setNacionalidade(nacionalidade);
-        autor.setDtNascimento(dtNascimento);
-        return autor;
-    }
 }
