@@ -49,8 +49,7 @@ public class Livro{
     @Column(name = "id_usuario_ultima_atualizacao")
     private UUID idUsuarioUltimaAtualizacao;
 
-    public Livro() {
-    }
+    public Livro() {}
 
     public Livro(String isbn, String titulo, LocalDate dtPublicacao, GeneroLivro genero, BigDecimal preco, Autor autor, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
         this.isbn = isbn;
@@ -143,5 +142,6 @@ public class Livro{
     public void setIdUsuarioUltimaAtualizacao(UUID idUsuarioUltimaAtualizacao) {
         this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
+
 }
 

@@ -51,9 +51,7 @@ public class Autor {
         this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
 
-    public Autor() {
-
-    }
+    public Autor() {}
 
     public UUID getId() {
         return id;
@@ -118,4 +116,5 @@ public class Autor {
     public void setIdUsuarioUltimaAtualizacao(UUID idUsuarioUltimaAtualizacao) {
         this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
     }
+
 }

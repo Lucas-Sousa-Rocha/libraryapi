@@ -21,4 +21,5 @@ public class GlobalExceptionHandler {
         List<ErroCampo> listaErros = fieldErrors.stream().map(fe -> new ErroCampo(fe.getField(), fe.getDefaultMessage())).collect(Collectors.toList());
         return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(),"Erro de validação",listaErros);
     }
+
 }

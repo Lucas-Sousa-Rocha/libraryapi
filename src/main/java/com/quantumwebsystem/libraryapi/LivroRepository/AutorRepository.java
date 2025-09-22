@@ -21,4 +21,5 @@ public interface AutorRepository extends JpaRepository<Autor, UUID> {
     List<Autor> findByNomeContainingAndNacionalidadeContaining(String nome, String nacionalidade);
 
     Optional<Autor> findByNomeIgnoreCaseAndNacionalidadeIgnoreCaseAndDtNascimento(String nome, String nacionalidade, LocalDate dtNascimento);
+
 }
