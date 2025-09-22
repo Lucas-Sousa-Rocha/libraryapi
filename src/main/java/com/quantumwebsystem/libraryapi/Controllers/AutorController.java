@@ -1,7 +1,7 @@
 package com.quantumwebsystem.libraryapi.Controllers;
 
-import com.quantumwebsystem.libraryapi.Controllers.DTO.AutorDTO;
-import com.quantumwebsystem.libraryapi.Controllers.DTO.ErroResposta;
+import com.quantumwebsystem.libraryapi.DTO.AutorDTO;
+import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
 import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import com.quantumwebsystem.libraryapi.Model.Autor;

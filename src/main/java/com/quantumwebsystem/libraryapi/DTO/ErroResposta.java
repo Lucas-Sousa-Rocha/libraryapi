@@ -1,4 +1,4 @@
-package com.quantumwebsystem.libraryapi.Controllers.DTO;
+package com.quantumwebsystem.libraryapi.DTO;
 
 import org.springframework.http.HttpStatus;
 import java.util.List;

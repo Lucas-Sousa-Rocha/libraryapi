@@ -1,4 +1,4 @@
-package com.quantumwebsystem.libraryapi.Controllers.DTO;
+package com.quantumwebsystem.libraryapi.DTO;
 
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import jakarta.validation.constraints.NotBlank;

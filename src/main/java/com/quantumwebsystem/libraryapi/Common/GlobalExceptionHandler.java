@@ -1,7 +1,7 @@
-package com.quantumwebsystem.libraryapi.Controllers.common;
+package com.quantumwebsystem.libraryapi.Common;
 
-import com.quantumwebsystem.libraryapi.Controllers.DTO.ErroCampo;
-import com.quantumwebsystem.libraryapi.Controllers.DTO.ErroResposta;
+import com.quantumwebsystem.libraryapi.DTO.ErroCampo;
+import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
