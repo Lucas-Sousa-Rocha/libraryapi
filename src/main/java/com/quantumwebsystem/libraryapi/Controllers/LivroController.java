@@ -1,6 +1,13 @@
 package com.quantumwebsystem.libraryapi.Controllers;
 
+import com.quantumwebsystem.libraryapi.DTO.CadastroLivroDTO;
+import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
+import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import com.quantumwebsystem.libraryapi.Service.LivroService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +19,16 @@ public class LivroController {
 
     public LivroController(LivroService livroService) {
         this.livroService = livroService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> salvarLivro(@RequestBody @Valid CadastroLivroDTO cadastroLivro){
+        try{
+            return ResponseEntity.ok(cadastroLivro);
+        } catch (ResgistroDuplicado e){
+            var erroDTO = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+        }
     }
 
 
