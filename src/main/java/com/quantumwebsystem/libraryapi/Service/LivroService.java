@@ -1,9 +1,14 @@
 package com.quantumwebsystem.libraryapi.Service;
 
-import com.quantumwebsystem.libraryapi.LivroRepository.LivroRepository;
+import com.quantumwebsystem.libraryapi.Repository.LivroRepository;
+import com.quantumwebsystem.libraryapi.Model.GeneroLivro;
 import com.quantumwebsystem.libraryapi.Model.Livro;
+import com.quantumwebsystem.libraryapi.Repository.Specs.LivroSpecs;
 import com.quantumwebsystem.libraryapi.Validator.LivroValidator;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,4 +36,35 @@ public class LivroService {
         livroRepository.delete(livro);
     }
 
+    public List<Livro> pesquisa(String isbn, String titulo, String nomeAutor, GeneroLivro  genero, Integer anoPublicacao){
+
+        Specification<Livro> livroSpecification = (root, query, cb) -> cb.conjunction();
+
+        if (isbn != null) {
+            livroSpecification = livroSpecification.and(LivroSpecs.isbnEquals(isbn));
+        }
+        if (titulo != null) {
+            livroSpecification = livroSpecification.and(LivroSpecs.tituloLike(titulo));
+        }
+        if (genero != null) {
+            livroSpecification = livroSpecification.and(LivroSpecs.generoIquals(genero));
+        }
+
+        List<Livro> livros = livroRepository.findAll(livroSpecification);
+        return livroRepository.findAll(LivroSpecs.isbnEquals(isbn));
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

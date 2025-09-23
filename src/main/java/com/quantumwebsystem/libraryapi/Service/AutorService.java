@@ -1,7 +1,7 @@
 package com.quantumwebsystem.libraryapi.Service;
 
 import com.quantumwebsystem.libraryapi.Model.Autor;
-import com.quantumwebsystem.libraryapi.LivroRepository.AutorRepository;
+import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
 import com.quantumwebsystem.libraryapi.Validator.AutorValidator;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;

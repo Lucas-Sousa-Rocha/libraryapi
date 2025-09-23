@@ -3,7 +3,7 @@ package com.quantumwebsystem.libraryapi.Mappers;
 import com.quantumwebsystem.libraryapi.DTO.RequestLivroDTO;
 import com.quantumwebsystem.libraryapi.DTO.ResponseLivroDTO;
 import com.quantumwebsystem.libraryapi.Exceptions.AutorNaoEncontrado;
-import com.quantumwebsystem.libraryapi.LivroRepository.AutorRepository;
+import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import org.mapstruct.Mapper;

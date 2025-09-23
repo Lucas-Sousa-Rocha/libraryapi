@@ -1,11 +1,13 @@
-package com.quantumwebsystem.libraryapi.LivroRepository;
+package com.quantumwebsystem.libraryapi.Repository;
 
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
 import java.util.Optional;
 import java.util.UUID;
 
-public interface LivroRepository extends JpaRepository<Livro, Long> {
+public interface LivroRepository extends JpaRepository<Livro, Long>, JpaSpecificationExecutor<Livro> {
 
     boolean existsLivroByAutorId(UUID id);
 
@@ -16,4 +18,6 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
     Optional<Livro> findById(UUID id);
 
     boolean existsById(UUID id);
+
+
 }

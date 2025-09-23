@@ -1,4 +1,4 @@
-package com.quantumwebsystem.libraryapi.LivroRepository;
+package com.quantumwebsystem.libraryapi.Repository;
 
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Model.GeneroLivro;

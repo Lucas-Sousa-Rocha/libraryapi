@@ -1,8 +1,8 @@
 package com.quantumwebsystem.libraryapi.AutorRepository;
 
 
-import com.quantumwebsystem.libraryapi.LivroRepository.AutorRepository;
-import com.quantumwebsystem.libraryapi.LivroRepository.LivroRepository;
+import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
+import com.quantumwebsystem.libraryapi.Repository.LivroRepository;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Service.AutorService;
 import org.junit.jupiter.api.Test;
