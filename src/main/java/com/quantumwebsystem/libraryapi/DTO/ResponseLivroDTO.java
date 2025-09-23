@@ -12,5 +12,5 @@ public record ResponseLivroDTO(
         LocalDate dtPublicacao,
         GeneroLivro genero,
         BigDecimal preco,
-        RequestAutorDTO autor // usa o AutorDTO existente
+        RequestAutorDTO autor
 ) {}
