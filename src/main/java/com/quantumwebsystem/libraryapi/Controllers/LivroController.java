@@ -1,19 +1,16 @@
 package com.quantumwebsystem.libraryapi.Controllers;
 
-import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
 import com.quantumwebsystem.libraryapi.DTO.RequestLivroDTO;
-import com.quantumwebsystem.libraryapi.Exceptions.AutorNaoEncontrado;
-import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
+import com.quantumwebsystem.libraryapi.DTO.ResponseLivroDTO;
 import com.quantumwebsystem.libraryapi.Mappers.LivroMapper;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import com.quantumwebsystem.libraryapi.Service.LivroService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/livros")
@@ -28,19 +25,28 @@ public class LivroController implements GenericController{
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvarLivro(@RequestBody @Valid RequestLivroDTO requestLivroDTO) {
-        try {
+    public ResponseEntity<Void> salvarLivro(@RequestBody @Valid RequestLivroDTO requestLivroDTO) {
             Livro livro = livroMapper.toEntity(requestLivroDTO);
             livroService.salvarLivro(livro);
             URI location = gerarHeaderLocation(livro.getId());
             return ResponseEntity.created(location).build();
-        } catch (AutorNaoEncontrado e) {
-            var erroDTO = ErroResposta.naoEncontrado(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        } catch (ResgistroDuplicado e) {
-            var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseLivroDTO> obterDetalhesPorId(@PathVariable UUID id){
+    return livroService.obterDadosLivroPorId(id).map(livro -> {var dto = livroMapper.toDTO(livro);
+    return ResponseEntity.ok(dto);}).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+

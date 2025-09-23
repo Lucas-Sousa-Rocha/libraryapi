@@ -1,10 +1,7 @@
 package com.quantumwebsystem.libraryapi.Controllers;
 
-import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
 import com.quantumwebsystem.libraryapi.DTO.RequestAutorDTO;
 import com.quantumwebsystem.libraryapi.DTO.ResponseAutorDTO;
-import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
-import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import com.quantumwebsystem.libraryapi.Mappers.AutorMapper;
 import com.quantumwebsystem.libraryapi.Model.Autor;
 import com.quantumwebsystem.libraryapi.Service.AutorService;
@@ -30,16 +27,11 @@ public class AutorController implements GenericController{
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvarAutor(@RequestBody @Valid RequestAutorDTO autorDTO) {
-        try {
+    public ResponseEntity<Void> salvarAutor(@RequestBody @Valid RequestAutorDTO autorDTO) {
             Autor autor = autorMapper.toEntity(autorDTO);
             autorService.salvarAutor(autor);
             URI location = gerarHeaderLocation(autor.getId());
             return ResponseEntity.created(location).build();
-        } catch (ResgistroDuplicado e) {
-            var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        }
     }
 
     @GetMapping("/{id}")
@@ -49,25 +41,20 @@ public class AutorController implements GenericController{
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> excluirAutor(@PathVariable UUID id){
-        try {
+    public ResponseEntity<Void> excluirAutor(@PathVariable UUID id){
             Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
             if (autorOptional.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
             autorService.excluirAutor(id);
             return ResponseEntity.noContent().build();
-        } catch (OperacaoNaoPermitida e) {
-            var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        }
     }
 
     @GetMapping
     public ResponseEntity<List<ResponseAutorDTO>> obterAutores(@RequestParam(value = "nome",required = false) String nome, @RequestParam(value = "nacionalidade", required = false ) String nacionalidade){
         List<Autor> autores = autorService.pesquisarByExemple(nome,nacionalidade);
         List<ResponseAutorDTO> lista = autores.stream().map(autorMapper::toDTO).collect(Collectors.toList());
-    return ResponseEntity.ok(lista);
+        return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/pesquisar")
@@ -78,8 +65,7 @@ public class AutorController implements GenericController{
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> editarAutor(@PathVariable(value = "id") UUID id, @RequestBody @Valid ResponseAutorDTO autorDto){
-        try {
+    public ResponseEntity<Void> editarAutor(@PathVariable(value = "id") UUID id, @RequestBody @Valid ResponseAutorDTO autorDto){
             Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
             if (autorOptional.isEmpty()) {
                 return ResponseEntity.notFound().build();
@@ -90,10 +76,6 @@ public class AutorController implements GenericController{
             autor.setDtNascimento(autorDto.dtNascimento());
             autorService.editarAutor(autor);
             return ResponseEntity.noContent().build();
-        } catch (ResgistroDuplicado e){
-            var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        }
     }
 
 }
