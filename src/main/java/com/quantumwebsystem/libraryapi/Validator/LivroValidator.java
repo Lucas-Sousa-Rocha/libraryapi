@@ -1,6 +1,7 @@
 package com.quantumwebsystem.libraryapi.Validator;
 
 import com.quantumwebsystem.libraryapi.Exceptions.AutorNaoEncontrado;
+import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import com.quantumwebsystem.libraryapi.LivroRepository.AutorRepository;
 import com.quantumwebsystem.libraryapi.LivroRepository.LivroRepository;
@@ -19,7 +20,7 @@ public class LivroValidator {
         this.autorRepository = autorRepository;
     }
 
-    public void validarLivro(Livro livro) {
+    public void validarNovoLivro(Livro livro) {
         validarAutor(livro.getAutor().getId());
         validarIsbn(livro.getIsbn());
         validarTitulo(livro.getTitulo());
@@ -40,6 +41,12 @@ public class LivroValidator {
     private void validarTitulo(String titulo) {
         if (livroRepository.existsByTituloIgnoreCase(titulo)) {
             throw new ResgistroDuplicado("Já existe um livro com este título!");
+        }
+    }
+
+    public void validarParaExcluir(UUID id){
+        if (!livroRepository.existsById(id)){
+            throw new OperacaoNaoPermitida("Livro não existe !!");
         }
     }
 

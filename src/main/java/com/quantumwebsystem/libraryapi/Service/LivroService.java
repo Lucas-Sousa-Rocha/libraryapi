@@ -4,7 +4,6 @@ import com.quantumwebsystem.libraryapi.LivroRepository.LivroRepository;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import com.quantumwebsystem.libraryapi.Validator.LivroValidator;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,12 +19,16 @@ public class LivroService {
     }
 
     public void salvarLivro(Livro livro) {
-        livroValidator.validarLivro(livro);
+        livroValidator.validarNovoLivro(livro);
         livroRepository.save(livro);
     }
 
     public Optional<Livro> obterDadosLivroPorId(UUID id){
         return livroRepository.findById(id);
+    }
+
+    public void excluirLivro(Livro livro){
+        livroRepository.delete(livro);
     }
 
 }

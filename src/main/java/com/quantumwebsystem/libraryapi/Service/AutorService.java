@@ -37,7 +37,7 @@ public class AutorService {
     public void excluirAutor(UUID id){
             autorValidator.validarSeAutorPussuilivros(id);
             autorRepository.deleteById(id);
-        }
+    }
 
     public List<Autor> buscarPorNomeENacionalidade(String nome, String nacionalidade){
         return autorRepository.findByNomeContainingAndNacionalidadeContaining(nome,nacionalidade);

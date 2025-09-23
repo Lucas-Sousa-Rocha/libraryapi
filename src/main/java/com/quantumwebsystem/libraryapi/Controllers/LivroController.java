@@ -8,7 +8,6 @@ import com.quantumwebsystem.libraryapi.Service.LivroService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.util.UUID;
 
@@ -36,6 +35,12 @@ public class LivroController implements GenericController{
     public ResponseEntity<ResponseLivroDTO> obterDetalhesPorId(@PathVariable UUID id){
     return livroService.obterDadosLivroPorId(id).map(livro -> {var dto = livroMapper.toDTO(livro);
     return ResponseEntity.ok(dto);}).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> excluirLivro(@PathVariable UUID id) {
+        return livroService.obterDadosLivroPorId(id).map(livro -> {livroService.excluirLivro(livro);
+            return ResponseEntity.noContent().<Void>build();}).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }
