@@ -1,24 +1,33 @@
 package com.quantumwebsystem.libraryapi.Mappers;
 
-import com.quantumwebsystem.libraryapi.DTO.RequestAutorDTO;
 import com.quantumwebsystem.libraryapi.DTO.RequestLivroDTO;
 import com.quantumwebsystem.libraryapi.DTO.ResponseLivroDTO;
-import com.quantumwebsystem.libraryapi.Model.Livro;
+import com.quantumwebsystem.libraryapi.Exceptions.AutorNaoEncontrado;
+import com.quantumwebsystem.libraryapi.LivroRepository.AutorRepository;
 import com.quantumwebsystem.libraryapi.Model.Autor;
+import com.quantumwebsystem.libraryapi.Model.Livro;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
-public interface LivroMapper {
+public abstract class LivroMapper {
 
-    // DTO de entrada → Entity
-    @Mapping(target = "autor", ignore = true) // será setado no service
-    Livro toEntity(RequestLivroDTO requestlivroDTO);
+    @Autowired
+    protected AutorRepository autorRepository;
 
-    // Entity → DTO de saída (LivroDTO com AutorDTO)
-    @Mapping(source = "autor", target = "autor")
-    ResponseLivroDTO toDTO(Livro livro);
+    public Livro toEntity(RequestLivroDTO dto) {
+        Livro livro = new Livro();
+        livro.setIsbn(dto.isbn());
+        livro.setTitulo(dto.titulo());
+        livro.setDtPublicacao(dto.dtPublicacao());
+        livro.setGenero(dto.genero());
+        livro.setPreco(dto.preco());
+        Autor autor = autorRepository.findById(dto.idAutor()).orElseThrow(() -> new AutorNaoEncontrado("Autor não encontrado!!"));
+        livro.setAutor(autor);
+        return livro;
+    }
 
-    // Autor → AutorDTO
-    RequestAutorDTO autorToDTO(Autor autor);
+    public abstract ResponseLivroDTO toDTO(Livro livro);
+
 }
+

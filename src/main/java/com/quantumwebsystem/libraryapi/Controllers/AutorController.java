@@ -11,7 +11,6 @@ import com.quantumwebsystem.libraryapi.Service.AutorService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/autores")
-public class AutorController {
+public class AutorController implements GenericController{
 
     private final AutorService autorService;
     private final AutorMapper autorMapper;
@@ -35,7 +34,7 @@ public class AutorController {
         try {
             Autor autor = autorMapper.toEntity(autorDTO);
             autorService.salvarAutor(autor);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autor.getId()).toUri();
+            URI location = gerarHeaderLocation(autor.getId());
             return ResponseEntity.created(location).build();
         } catch (ResgistroDuplicado e) {
             var erroDTO = ErroResposta.conflito(e.getMessage());
