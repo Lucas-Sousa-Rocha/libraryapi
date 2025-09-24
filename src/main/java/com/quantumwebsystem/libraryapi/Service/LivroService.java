@@ -5,6 +5,9 @@ import com.quantumwebsystem.libraryapi.Model.GeneroLivro;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import com.quantumwebsystem.libraryapi.Repository.Specs.LivroSpecs;
 import com.quantumwebsystem.libraryapi.Validator.LivroValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -35,7 +38,7 @@ public class LivroService {
         livroRepository.delete(livro);
     }
 
-    public List<Livro> pesquisa(String isbn, String titulo, String nomeAutor, GeneroLivro genero, Integer anoPublicacao) {
+    public Page<Livro> pesquisa(String isbn, String titulo, String nomeAutor, GeneroLivro genero, Integer anoPublicacao, Integer pagina, Integer qtdPorPagina) {
         Specification<Livro> livroSpecification = Specification.allOf();
 
         if (isbn != null && !isbn.isBlank()) {
@@ -54,7 +57,9 @@ public class LivroService {
             livroSpecification = livroSpecification.and(LivroSpecs.anoPublicacaoEquals(anoPublicacao));
         }
 
-        return livroRepository.findAll(livroSpecification);
+        Pageable pagerequest = PageRequest.of(pagina, qtdPorPagina);
+
+        return livroRepository.findAll(livroSpecification, pagerequest);
     }
 
     public void atualizarLivro(Livro livro) {

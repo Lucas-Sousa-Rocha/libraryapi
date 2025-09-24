@@ -7,13 +7,11 @@ import com.quantumwebsystem.libraryapi.Model.GeneroLivro;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import com.quantumwebsystem.libraryapi.Service.LivroService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
-import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/livros")
@@ -48,7 +46,7 @@ public class LivroController implements GenericController{
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponseLivroDTO>> pesquisarPorNome(
+    public ResponseEntity<Page<ResponseLivroDTO>> pesquisarPorNome(
             @RequestParam(value = "isbn",required = false)
             String isbn,
             @RequestParam(value = "titulo",required = false)
@@ -58,10 +56,14 @@ public class LivroController implements GenericController{
             @RequestParam(value = "nomeAutor",required = false)
             String nomeAutor,
             @RequestParam(value = "anoPublicacao",required = false)
-            Integer anoPublicacao) {
-        var resultado = livroService.pesquisa(isbn,titulo,nomeAutor,genero,anoPublicacao);
-        var lista = resultado.stream().map(livroMapper::toDTO).collect(Collectors.toList());
-        return ResponseEntity.ok(lista);
+            Integer anoPublicacao,
+            @RequestParam(value = "qtdPorPagina",defaultValue = "10")
+            Integer qtdPorPagina,
+            @RequestParam(value = "pagina",defaultValue = "0")
+            Integer pagina) {
+        Page<Livro> paginaResultado = livroService.pesquisa(isbn,titulo,nomeAutor,genero,anoPublicacao,pagina,qtdPorPagina);
+        Page<ResponseLivroDTO> resultado = paginaResultado.map(livroMapper::toDTO);
+        return ResponseEntity.ok(resultado);
     }
 
     @PutMapping("{id}")
