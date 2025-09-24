@@ -53,12 +53,13 @@ public class LivroController implements GenericController{
             @RequestParam(value = "titulo",required = false)
             String titulo,
             @RequestParam(value = "genero",required = false)
-            GeneroLivro genero,
+            String genero,//GeneroLivro genero,
             @RequestParam(value = "nomeAutor",required = false)
             String nomeAutor,
             @RequestParam(value = "anoPublicacao",required = false)
             Integer anoPublicacao) {
-        var resultado = livroService.pesquisa(isbn,titulo,nomeAutor,genero,anoPublicacao);
+        System.out.println("DEBUG: isbn=" + isbn + ", titulo=" + titulo + ", genero=" + genero + ", nomeAutor=" + nomeAutor + ", ano=" + anoPublicacao);
+        var resultado = livroService.pesquisa(isbn,titulo,nomeAutor, GeneroLivro.valueOf(genero.toUpperCase()),anoPublicacao);
         var lista = resultado.stream().map(livroMapper::toDTO).collect(Collectors.toList());
         return ResponseEntity.ok(lista);
     }

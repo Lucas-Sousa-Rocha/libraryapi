@@ -3,7 +3,6 @@ package com.quantumwebsystem.libraryapi.Repository.Specs;
 import com.quantumwebsystem.libraryapi.Model.GeneroLivro;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import org.springframework.data.jpa.domain.Specification;
-import java.time.LocalDate;
 
 public class LivroSpecs {
 
