@@ -7,7 +7,6 @@ import com.quantumwebsystem.libraryapi.Repository.Specs.LivroSpecs;
 import com.quantumwebsystem.libraryapi.Validator.LivroValidator;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,9 +56,6 @@ public class LivroService {
 
         return livroRepository.findAll(livroSpecification);
     }
-
-
-
 
 }
 

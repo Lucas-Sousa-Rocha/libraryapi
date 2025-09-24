@@ -1,6 +1,5 @@
 package com.quantumwebsystem.libraryapi.Model;
 
-
 public enum GeneroLivro {
     FICCAO,
     FANTASIA,
