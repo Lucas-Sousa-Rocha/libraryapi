@@ -1,53 +1,41 @@
 package com.quantumwebsystem.libraryapi.Validator;
 
-import com.quantumwebsystem.libraryapi.Exceptions.AutorNaoEncontrado;
-import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
+import com.quantumwebsystem.libraryapi.Exceptions.RegraNegocio;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
-import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
-import com.quantumwebsystem.libraryapi.Repository.LivroRepository;
 import com.quantumwebsystem.libraryapi.Model.Livro;
+import com.quantumwebsystem.libraryapi.Repository.LivroRepository;
 import org.springframework.stereotype.Component;
-import java.util.UUID;
+import java.util.Optional;
 
 @Component
 public class LivroValidator {
 
+    private static final int MAX_ANO_PUBLICACAO = 2020;
+
     private final LivroRepository livroRepository;
-    private final AutorRepository autorRepository;
 
-    public LivroValidator(LivroRepository livroRepository, AutorRepository autorRepository){
+    public LivroValidator(LivroRepository livroRepository){
         this.livroRepository = livroRepository;
-        this.autorRepository = autorRepository;
     }
 
-    public void validarNovoLivro(Livro livro) {
-        validarAutor(livro.getAutor().getId());
-        validarIsbn(livro.getIsbn());
-        validarTitulo(livro.getTitulo());
-    }
-
-    private void validarAutor(UUID idAutor) {
-        if (!autorRepository.existsById(idAutor)) {
-            throw new AutorNaoEncontrado("Autor não encontrado!");
-        }
-    }
-
-    private void validarIsbn(String isbn) {
-        if (livroRepository.existsByIsbnIgnoreCase(isbn)) {
+    public void validarLivro(Livro livro) {
+        if (existeLivroComIsbn(livro)){
             throw new ResgistroDuplicado("Já existe um livro com este ISBN!");
         }
-    }
-
-    private void validarTitulo(String titulo) {
-        if (livroRepository.existsByTituloIgnoreCase(titulo)) {
-            throw new ResgistroDuplicado("Já existe um livro com este título!");
+        if (precoObrigatorioNulo(livro)){
+            throw new RegraNegocio("preço","Para livros com ano de publicação anterior a 2020 é obrigatorio o preço !!");
         }
     }
 
-    public void validarParaExcluir(UUID id){
-        if (!livroRepository.existsById(id)){
-            throw new OperacaoNaoPermitida("Livro não existe !!");
-        }
+    private boolean precoObrigatorioNulo(Livro livro) {
+        return livro.getPreco() == null && livro.getDtPublicacao().getYear() < MAX_ANO_PUBLICACAO;
     }
 
+    public boolean existeLivroComIsbn(Livro livro){
+        Optional<Livro> livroEncontrado = livroRepository.findByIsbn(livro.getIsbn());
+        if(livro.getId() == null){
+            return livroEncontrado.isPresent();
+        }
+        return !livro.getId().equals(livroEncontrado.get().getId()) && livroEncontrado.isPresent();
+    }
 }

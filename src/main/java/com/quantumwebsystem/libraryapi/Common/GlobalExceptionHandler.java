@@ -1,9 +1,11 @@
 package com.quantumwebsystem.libraryapi.Common;
 
+
 import com.quantumwebsystem.libraryapi.DTO.ErroCampo;
 import com.quantumwebsystem.libraryapi.DTO.ErroResposta;
 import com.quantumwebsystem.libraryapi.Exceptions.AutorNaoEncontrado;
 import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
+import com.quantumwebsystem.libraryapi.Exceptions.RegraNegocio;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -48,5 +50,12 @@ public class GlobalExceptionHandler {
     public ErroResposta handleGenerico(RuntimeException e){
         return new ErroResposta(HttpStatus.INTERNAL_SERVER_ERROR.value(),"Erro interno !!",List.of());
     }
+
+    @ExceptionHandler(RegraNegocio.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErroResposta handleRegraNegocio(RegraNegocio e){
+        return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação",List.of(new ErroCampo(e.getCampo(),e.getMessage())));
+    }
+
 
 }

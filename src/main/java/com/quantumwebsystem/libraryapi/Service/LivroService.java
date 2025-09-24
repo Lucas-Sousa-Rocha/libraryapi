@@ -23,7 +23,7 @@ public class LivroService {
     }
 
     public void salvarLivro(Livro livro) {
-        livroValidator.validarNovoLivro(livro);
+        livroValidator.validarLivro(livro);
         livroRepository.save(livro);
     }
 
@@ -57,6 +57,13 @@ public class LivroService {
         return livroRepository.findAll(livroSpecification);
     }
 
+    public void atualizarLivro(Livro livro) {
+        if (livro.getId() == null) {
+            throw new IllegalArgumentException("Erro, para atualizar o livro deve existir !!");
+        }
+        livroValidator.validarLivro(livro);
+        livroRepository.save(livro);
+    }
 }
 
 

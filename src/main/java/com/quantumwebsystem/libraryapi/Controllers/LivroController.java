@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -53,15 +54,29 @@ public class LivroController implements GenericController{
             @RequestParam(value = "titulo",required = false)
             String titulo,
             @RequestParam(value = "genero",required = false)
-            String genero,//GeneroLivro genero,
+            GeneroLivro genero,
             @RequestParam(value = "nomeAutor",required = false)
             String nomeAutor,
             @RequestParam(value = "anoPublicacao",required = false)
             Integer anoPublicacao) {
-        System.out.println("DEBUG: isbn=" + isbn + ", titulo=" + titulo + ", genero=" + genero + ", nomeAutor=" + nomeAutor + ", ano=" + anoPublicacao);
-        var resultado = livroService.pesquisa(isbn,titulo,nomeAutor, GeneroLivro.valueOf(genero.toUpperCase()),anoPublicacao);
+        var resultado = livroService.pesquisa(isbn,titulo,nomeAutor,genero,anoPublicacao);
         var lista = resultado.stream().map(livroMapper::toDTO).collect(Collectors.toList());
         return ResponseEntity.ok(lista);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Object> atualizarLivro(@PathVariable UUID id, @RequestBody @Valid RequestLivroDTO requestLivroDTO){
+       return livroService.obterDadosLivroPorId(id).map(livro -> {
+           Livro entidade = livroMapper.toEntity(requestLivroDTO);
+           livro.setDtPublicacao(entidade.getDtPublicacao());
+           livro.setGenero(entidade.getGenero());
+           livro.setIsbn(entidade.getIsbn());
+           livro.setPreco(entidade.getPreco());
+           livro.setTitulo(entidade.getTitulo());
+           livro.setAutor(entidade.getAutor());
+           livroService.atualizarLivro(livro);
+           return ResponseEntity.noContent().build();
+       }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }
