@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -46,22 +47,22 @@ public class Livro{
     @Column(name = "dt_cadastro")
     private LocalDateTime dtCadastro;
 
-    @Column(name = "id_usuario_ultima_atualizacao")
-    private UUID idUsuarioUltimaAtualizacao;
+    @ManyToOne
+    @JoinColumn(name = "id_usuario_ultima_atualizacao")
+    private Usuario usuario;
 
     public Livro() {}
 
-    public Livro(UUID id, String isbn, String titulo, LocalDate dtPublicacao, GeneroLivro genero, BigDecimal preco, Autor autor, LocalDateTime dtUltimaAtualizacao, LocalDateTime dtCadastro, UUID idUsuarioUltimaAtualizacao) {
-        this.id = id;
-        this.isbn = isbn;
-        this.titulo = titulo;
-        this.dtPublicacao = dtPublicacao;
-        this.genero = genero;
-        this.preco = preco;
-        this.autor = autor;
-        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
+    public Livro(Usuario usuario, LocalDateTime dtCadastro, LocalDateTime dtUltimaAtualizacao, Autor autor, BigDecimal preco, GeneroLivro genero, LocalDate dtPublicacao, String titulo, String isbn) {
+        this.usuario = usuario;
         this.dtCadastro = dtCadastro;
-        this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
+        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
+        this.autor = autor;
+        this.preco = preco;
+        this.genero = genero;
+        this.dtPublicacao = dtPublicacao;
+        this.titulo = titulo;
+        this.isbn = isbn;
     }
 
     public UUID getId() {
@@ -72,60 +73,12 @@ public class Livro{
         this.id = id;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public LocalDate getDtPublicacao() {
-        return dtPublicacao;
-    }
-
-    public void setDtPublicacao(LocalDate dtPublicacao) {
-        this.dtPublicacao = dtPublicacao;
-    }
-
-    public GeneroLivro getGenero() {
-        return genero;
-    }
-
-    public void setGenero(GeneroLivro genero) {
-        this.genero = genero;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
-
-    public Autor getAutor() {
-        return autor;
-    }
-
-    public void setAutor(Autor autor) {
-        this.autor = autor;
-    }
-
-    public LocalDateTime getDtUltimaAtualizacao() {
-        return dtUltimaAtualizacao;
-    }
-
-    public void setDtUltimaAtualizacao(LocalDateTime dtUltimaAtualizacao) {
-        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public LocalDateTime getDtCadastro() {
@@ -136,12 +89,60 @@ public class Livro{
         this.dtCadastro = dtCadastro;
     }
 
-    public UUID getIdUsuarioUltimaAtualizacao() {
-        return idUsuarioUltimaAtualizacao;
+    public LocalDateTime getDtUltimaAtualizacao() {
+        return dtUltimaAtualizacao;
     }
 
-    public void setIdUsuarioUltimaAtualizacao(UUID idUsuarioUltimaAtualizacao) {
-        this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
+    public void setDtUltimaAtualizacao(LocalDateTime dtUltimaAtualizacao) {
+        this.dtUltimaAtualizacao = dtUltimaAtualizacao;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    public GeneroLivro getGenero() {
+        return genero;
+    }
+
+    public void setGenero(GeneroLivro genero) {
+        this.genero = genero;
+    }
+
+    public LocalDate getDtPublicacao() {
+        return dtPublicacao;
+    }
+
+    public void setDtPublicacao(LocalDate dtPublicacao) {
+        this.dtPublicacao = dtPublicacao;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 }
 

@@ -1,7 +1,9 @@
 package com.quantumwebsystem.libraryapi.Service;
 
 import com.quantumwebsystem.libraryapi.Model.Autor;
+import com.quantumwebsystem.libraryapi.Model.Usuario;
 import com.quantumwebsystem.libraryapi.Repository.AutorRepository;
+import com.quantumwebsystem.libraryapi.Security.SecurityService;
 import com.quantumwebsystem.libraryapi.Validator.AutorValidator;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -15,14 +17,18 @@ public class AutorService {
 
     private final AutorRepository autorRepository;
     private final AutorValidator autorValidator;
+    private final SecurityService securityService;
 
-    public AutorService(AutorRepository autorRepository, AutorValidator autorValidator) {
+    public AutorService(AutorRepository autorRepository, AutorValidator autorValidator, SecurityService securityService) {
         this.autorRepository = autorRepository;
         this.autorValidator = autorValidator;
+        this.securityService = securityService;
     }
 
     public void salvarAutor(Autor autor){
         autorValidator.validarAutor(autor);
+        Usuario usuario = securityService.obterusuarioLogado();
+        autor.setUsuario(usuario);
         autorRepository.save(autor);
     }
 
@@ -52,6 +58,8 @@ public class AutorService {
             throw new IllegalArgumentException("Erro, para editar o autor deve existir !!");
         }
         autorValidator.validarAutor(autor);
+        Usuario usuario = securityService.obterusuarioLogado();
+        autor.setUsuario(usuario);
         autorRepository.save(autor);
     }
 

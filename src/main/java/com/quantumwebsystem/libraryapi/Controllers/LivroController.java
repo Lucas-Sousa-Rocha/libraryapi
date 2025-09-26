@@ -9,6 +9,7 @@ import com.quantumwebsystem.libraryapi.Service.LivroService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class LivroController implements GenericController{
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<Void> salvarLivro(@RequestBody @Valid RequestLivroDTO requestLivroDTO) {
             Livro livro = livroMapper.toEntity(requestLivroDTO);
             livroService.salvarLivro(livro);
@@ -34,18 +36,21 @@ public class LivroController implements GenericController{
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<ResponseLivroDTO> obterDetalhesPorId(@PathVariable UUID id){
     return livroService.obterDadosLivroPorId(id).map(livro -> {var dto = livroMapper.toDTO(livro);
     return ResponseEntity.ok(dto);}).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<Void> excluirLivro(@PathVariable UUID id) {
         return livroService.obterDadosLivroPorId(id).map(livro -> {livroService.excluirLivro(livro);
             return ResponseEntity.noContent().<Void>build();}).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<Page<ResponseLivroDTO>> pesquisarPorNome(
             @RequestParam(value = "isbn",required = false)
             String isbn,
@@ -67,6 +72,7 @@ public class LivroController implements GenericController{
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<Object> atualizarLivro(@PathVariable UUID id, @RequestBody @Valid RequestLivroDTO requestLivroDTO){
        return livroService.obterDadosLivroPorId(id).map(livro -> {
            Livro entidade = livroMapper.toEntity(requestLivroDTO);

@@ -4,9 +4,15 @@ import com.quantumwebsystem.libraryapi.DTO.RequestAutorDTO;
 import com.quantumwebsystem.libraryapi.DTO.ResponseAutorDTO;
 import com.quantumwebsystem.libraryapi.Mappers.AutorMapper;
 import com.quantumwebsystem.libraryapi.Model.Autor;
+import com.quantumwebsystem.libraryapi.Model.Usuario;
+import com.quantumwebsystem.libraryapi.Security.SecurityService;
 import com.quantumwebsystem.libraryapi.Service.AutorService;
+import com.quantumwebsystem.libraryapi.Service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
@@ -21,26 +27,30 @@ public class AutorController implements GenericController{
     private final AutorService autorService;
     private final AutorMapper autorMapper;
 
+
     public AutorController(AutorService autorService, AutorMapper autorMapper) {
         this.autorService = autorService;
         this.autorMapper = autorMapper;
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarAutor(@RequestBody @Valid RequestAutorDTO autorDTO) {
-            Autor autor = autorMapper.toEntity(autorDTO);
-            autorService.salvarAutor(autor);
-            URI location = gerarHeaderLocation(autor.getId());
-            return ResponseEntity.created(location).build();
+    @PreAuthorize("hasRole('GERENTE')")
+    public ResponseEntity<Void> salvarAutor(@RequestBody @Valid RequestAutorDTO autorDTO, Authentication authentication) {
+        Autor autor = autorMapper.toEntity(autorDTO);
+        autorService.salvarAutor(autor);
+        URI location = gerarHeaderLocation(autor.getId());
+        return ResponseEntity.created(location).build();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<ResponseAutorDTO> obterDadosAutorPorId(@PathVariable UUID id){
         return autorService.obterDadosAutorPorId(id).map(autor -> {ResponseAutorDTO autorDTO = autorMapper.toDTO(autor);
             return ResponseEntity.ok(autorDTO);}).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Void> excluirAutor(@PathVariable UUID id){
             Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
             if (autorOptional.isEmpty()) {
@@ -51,6 +61,7 @@ public class AutorController implements GenericController{
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<List<ResponseAutorDTO>> obterAutores(@RequestParam(value = "nome",required = false) String nome, @RequestParam(value = "nacionalidade", required = false ) String nacionalidade){
         List<Autor> autores = autorService.pesquisarByExemple(nome,nacionalidade);
         List<ResponseAutorDTO> lista = autores.stream().map(autorMapper::toDTO).collect(Collectors.toList());
@@ -58,6 +69,7 @@ public class AutorController implements GenericController{
     }
 
     @GetMapping("/pesquisar")
+    @PreAuthorize("hasAnyRole('OPERADOR','GERENTE')")
     public ResponseEntity<List<ResponseAutorDTO>> buscaPorTodosOsCampos(@RequestParam(value = "pesquisa") String pesquisa) {
     List<Autor> autores = autorService.buscaPorTodosOsCampos(pesquisa);
     List<ResponseAutorDTO> lista = autores.stream().map(autor -> new ResponseAutorDTO(autor.getId(),autor.getNome(),autor.getNacionalidade(),autor.getDtNascimento())).collect(Collectors.toList());
@@ -65,6 +77,7 @@ public class AutorController implements GenericController{
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Void> editarAutor(@PathVariable(value = "id") UUID id, @RequestBody @Valid ResponseAutorDTO autorDto){
             Optional<Autor> autorOptional = autorService.obterDadosAutorPorId(id);
             if (autorOptional.isEmpty()) {

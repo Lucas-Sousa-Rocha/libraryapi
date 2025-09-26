@@ -8,6 +8,7 @@ import com.quantumwebsystem.libraryapi.Exceptions.OperacaoNaoPermitida;
 import com.quantumwebsystem.libraryapi.Exceptions.RegraNegocio;
 import com.quantumwebsystem.libraryapi.Exceptions.ResgistroDuplicado;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,6 +56,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErroResposta handleRegraNegocio(RegraNegocio e){
         return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação",List.of(new ErroCampo(e.getCampo(),e.getMessage())));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErroResposta handleAccessDeniedException(AccessDeniedException e){
+        return new ErroResposta(HttpStatus.FORBIDDEN.value(), "Acesso negado !!",List.of());
     }
 
 

@@ -1,9 +1,11 @@
 package com.quantumwebsystem.libraryapi.Service;
 
+import com.quantumwebsystem.libraryapi.Model.Usuario;
 import com.quantumwebsystem.libraryapi.Repository.LivroRepository;
 import com.quantumwebsystem.libraryapi.Model.GeneroLivro;
 import com.quantumwebsystem.libraryapi.Model.Livro;
 import com.quantumwebsystem.libraryapi.Repository.Specs.LivroSpecs;
+import com.quantumwebsystem.libraryapi.Security.SecurityService;
 import com.quantumwebsystem.libraryapi.Validator.LivroValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,14 +21,18 @@ public class LivroService {
 
     private final LivroValidator livroValidator;
     private final LivroRepository livroRepository;
+    private final SecurityService securityService;
 
-    public LivroService(LivroValidator livroValidator, LivroRepository livroRepository) {
+    public LivroService(LivroValidator livroValidator, LivroRepository livroRepository, SecurityService securityService) {
         this.livroValidator = livroValidator;
         this.livroRepository = livroRepository;
+        this.securityService = securityService;
     }
 
     public void salvarLivro(Livro livro) {
         livroValidator.validarLivro(livro);
+        Usuario usuario = securityService.obterusuarioLogado();
+        livro.setUsuario(usuario);
         livroRepository.save(livro);
     }
 
@@ -66,6 +72,8 @@ public class LivroService {
         if (livro.getId() == null) {
             throw new IllegalArgumentException("Erro, para atualizar o livro deve existir !!");
         }
+        Usuario usuario = securityService.obterusuarioLogado();
+        livro.setUsuario(usuario);
         livroValidator.validarLivro(livro);
         livroRepository.save(livro);
     }
